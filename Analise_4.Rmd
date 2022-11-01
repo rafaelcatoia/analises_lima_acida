@@ -55,7 +55,7 @@ dframe_rhiz_ccsm = dframe_rhiz %>%
   mutate(Safra=gsub('Rhizotron_','',Safra))
 ```
 
-### UFSCar {.tabset}
+### UFSCar
 
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 dframe_summ_ufscar = dframe_rhiz_ufscar %>%
@@ -66,7 +66,9 @@ dframe_summ_ufscar = dframe_rhiz_ufscar %>%
   mutate(`Mean ± SD`=paste(round(Mean,5),'±',round(SD,5)))
 ```
 
-#### Gráfico De Barras 
+#### Graficos {.tabset}
+##### Gráfico De Barras {.tabset}
+###### Option 1
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 yname = 'Média de rhizotron'
 dframe_summ_ufscar %>% ggplot(
@@ -81,6 +83,8 @@ dframe_summ_ufscar %>% ggplot(
     ylab(yname)
 ```
 
+###### Option 2
+
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 dframe_summ_ufscar %>% ggplot(
       aes(x=RegHidrico,
@@ -94,7 +98,10 @@ dframe_summ_ufscar %>% ggplot(
     ylab(yname)
 ```
 
-#### Gráfico De Barras com erro
+##### Gráfico De Barras com erro {.tabset}
+
+###### Option 1
+
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 dframe_summ_ufscar %>% ggplot(
   aes(x=Tratamento,
@@ -114,6 +121,8 @@ dframe_summ_ufscar %>% ggplot(
   scale_fill_gdocs()+
   ylab(yname)
 ```
+
+###### Option 2
 
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 dframe_summ_ufscar %>% ggplot(
@@ -135,8 +144,9 @@ dframe_summ_ufscar %>% ggplot(
   ylab(yname)
 ```
 
-#### Gráfico de Pontos + Média e Erro
+##### Gráfico de Pontos + Média e Erro {.tabset}
 
+###### Option 1
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 dframe_rhiz_ufscar %>% ggplot()+
     facet_wrap(~Safra,scales='free')+
@@ -161,6 +171,7 @@ dframe_rhiz_ufscar %>% ggplot()+
     scale_fill_gdocs()
 ```
 
+###### Option 2
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 dframe_rhiz_ufscar %>% ggplot()+
     facet_wrap(~Safra,scales='free')+
@@ -186,12 +197,83 @@ dframe_rhiz_ufscar %>% ggplot()+
 ```
 
 
-#### Tabela Resumo
+##### Tabela Resumo
 
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 dframe_summ_ufscar %>% select(Safra,RegHidrico,Tratamento,`Mean ± SD`) %>% kable_cust(cap = 'Média e Desvio Padrao - Rhizotron')
 ```
 
+#### Modelo {.tabset}
+
+##### 2021 
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=200}
+fit_lm <- lm(data=dframe_rhiz_ufscar %>% filter(Safra=='2021'),
+          formula = Rhizotron~RegHidrico+Tratamento+RegHidrico*Tratamento)
+
+fit_aov <- aov(data=dframe_rhiz_ufscar %>% filter(Safra=='2021'),
+          formula = Rhizotron~RegHidrico+Tratamento+RegHidrico*Tratamento)
+
+summ_lm = summary(fit_lm)
+
+summ_aov = summary(fit_aov)
+
+par(mfrow=c(2,2))
+plot(fit_lm)
+par(mfrow=c(1,1))
+```
+
+```{r}
+summ_aov
+```
+
+```{r}
+summ_lm$coefficients %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+df_tk <- dframe_rhiz_ufscar %>% filter(Safra=='2021')
+
+tx <- with(data = df_tk,interaction(RegHidrico,Tratamento))
+amod <- aov(Rhizotron ~ RegHidrico+Tratamento+tx, data=df_tk)
+
+Tukey = agricolae::HSD.test(amod,trt = 'tx',group=TRUE)
+Tukey$groups %>% kable_cust()
+```
+
+##### 2022 
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=200}
+fit_lm <- lm(data=dframe_rhiz_ufscar %>% filter(Safra=='2022'),
+          formula = Rhizotron~RegHidrico+Tratamento+RegHidrico*Tratamento)
+
+fit_aov <- aov(data=dframe_rhiz_ufscar %>% filter(Safra=='2022'),
+          formula = Rhizotron~RegHidrico+Tratamento+RegHidrico*Tratamento)
+
+summ_lm = summary(fit_lm)
+
+summ_aov = summary(fit_aov)
+
+par(mfrow=c(2,2))
+plot(fit_lm)
+par(mfrow=c(1,1))
+```
+
+```{r}
+summ_aov
+```
+
+```{r}
+summ_lm$coefficients %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=200}
+df_tk <- dframe_rhiz_ufscar %>% filter(Safra=='2022')
+
+tx <- with(data = df_tk,interaction(RegHidrico,Tratamento))
+amod <- aov(Rhizotron ~ RegHidrico+Tratamento+tx, data=df_tk)
+
+Tukey = agricolae::HSD.test(amod,trt = 'tx',group=TRUE)
+Tukey$groups %>% kable_cust()
+```
 
 ### CCSM {.tabset}
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
@@ -471,7 +553,7 @@ summ_qf <- function(dframe,variable_name = ''){
     scale_fill_gdocs()+
     ylab(paste('Média de', variable_name ))
   
-  out$mean_desv_plot2 <-
+  out$mean_desv_plot_2 <-
     dframe %>% ggplot()+
     geom_point(aes(
       x=Tratamento,
@@ -663,17 +745,13 @@ results$barp_error
 results$barp_error_2
 ```
 
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$barp_error_2
-```
-
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
 ```
 
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$mean_desv_plot2
+results$mean_desv_plot_2
 ```
 
 ##### Tabela Resumo
@@ -704,17 +782,13 @@ results$barp_error
 results$barp_error_2
 ```
 
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$barp_error_2
-```
-
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
 ```
 
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$mean_desv_plot2
+results$mean_desv_plot_2
 ```
 
 ##### Tabela Resumo
@@ -745,17 +819,13 @@ results$barp_error
 results$barp_error_2
 ```
 
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$barp_error_2
-```
-
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
 ```
 
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$mean_desv_plot2
+results$mean_desv_plot_2
 ```
 
 ##### Tabela Resumo
@@ -786,17 +856,13 @@ results$barp_error
 results$barp_error_2
 ```
 
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$barp_error_2
-```
-
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
 ```
 
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$mean_desv_plot2
+results$mean_desv_plot_2
 ```
 
 ##### Tabela Resumo
@@ -827,17 +893,13 @@ results$barp_error
 results$barp_error_2
 ```
 
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$barp_error_2
-```
-
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
 ```
 
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$mean_desv_plot2
+results$mean_desv_plot_2
 ```
 
 ##### Tabela Resumo
@@ -868,17 +930,13 @@ results$barp_error
 results$barp_error_2
 ```
 
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$barp_error_2
-```
-
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
 ```
 
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$mean_desv_plot2
+results$mean_desv_plot_2
 ```
 
 ##### Tabela Resumo
@@ -909,17 +967,13 @@ results$barp_error
 results$barp_error_2
 ```
 
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$barp_error_2
-```
-
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
 ```
 
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$mean_desv_plot2
+results$mean_desv_plot_2
 ```
 
 ##### Tabela Resumo
@@ -950,17 +1004,13 @@ results$barp_error
 results$barp_error_2
 ```
 
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$barp_error_2
-```
-
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
 ```
 
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$mean_desv_plot2
+results$mean_desv_plot_2
 ```
 
 ##### Tabela Resumo
@@ -991,17 +1041,13 @@ results$barp_error
 results$barp_error_2
 ```
 
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$barp_error_2
-```
-
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
 ```
 
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$mean_desv_plot2
+results$mean_desv_plot_2
 ```
 
 ##### Tabela Resumo
@@ -1032,17 +1078,13 @@ results$barp_error
 results$barp_error_2
 ```
 
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$barp_error_2
-```
-
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
 ```
 
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$mean_desv_plot2
+results$mean_desv_plot_2
 ```
 
 ##### Tabela Resumo
@@ -1075,17 +1117,13 @@ results$barp_error
 results$barp_error_2
 ```
 
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$barp_error_2
-```
-
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
 ```
 
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$mean_desv_plot2
+results$mean_desv_plot_2
 ```
 
 ##### Tabela Resumo
@@ -1116,17 +1154,13 @@ results$barp_error
 results$barp_error_2
 ```
 
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$barp_error_2
-```
-
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
 ```
 
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$mean_desv_plot2
+results$mean_desv_plot_2
 ```
 
 ##### Tabela Resumo
@@ -1157,17 +1191,13 @@ results$barp_error
 results$barp_error_2
 ```
 
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$barp_error_2
-```
-
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
 ```
 
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$mean_desv_plot2
+results$mean_desv_plot_2
 ```
 
 ##### Tabela Resumo
@@ -1198,17 +1228,13 @@ results$barp_error
 results$barp_error_2
 ```
 
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$barp_error_2
-```
-
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
 ```
 
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$mean_desv_plot2
+results$mean_desv_plot_2
 ```
 
 ##### Tabela Resumo
@@ -1238,17 +1264,13 @@ results$barp_error
 results$barp_error_2
 ```
 
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$barp_error_2
-```
-
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
 ```
 
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$mean_desv_plot2
+results$mean_desv_plot_2
 ```
 
 ##### Tabela Resumo
@@ -1279,17 +1301,13 @@ results$barp_error
 results$barp_error_2
 ```
 
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$barp_error_2
-```
-
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
 ```
 
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$mean_desv_plot2
+results$mean_desv_plot_2
 ```
 
 ##### Tabela Resumo
@@ -1320,17 +1338,13 @@ results$barp_error
 results$barp_error_2
 ```
 
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$barp_error_2
-```
-
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
 ```
 
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$mean_desv_plot2
+results$mean_desv_plo 
 ```
 
 ##### Tabela Resumo
@@ -1361,17 +1375,13 @@ results$barp_error
 results$barp_error_2
 ```
 
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$barp_error_2
-```
-
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
 ```
 
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$mean_desv_plot2
+results$mean_desv_plot_2
 ```
 
 ##### Tabela Resumo
@@ -1402,17 +1412,13 @@ results$barp_error
 results$barp_error_2
 ```
 
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$barp_error_2
-```
-
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
 ```
 
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$mean_desv_plot2
+results$mean_desv_plot_2
 ```
 
 ##### Tabela Resumo
@@ -1444,24 +1450,16 @@ results$barp_error
 results$barp_error_2
 ```
 
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$barp_error_2
-```
-
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
 ```
 
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-results$mean_desv_plot2
+results$mean_desv_plot_2
 ```
 
 ##### Tabela Resumo
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$dframe_summ %>% kable_cust()
 ```
-
-
-
-

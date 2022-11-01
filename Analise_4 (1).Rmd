@@ -37,7 +37,7 @@ Novo relatório com análises para Ana Júlia - Los Hermanos
 
 ## Rhizotron {.tabset}
 ```{r}
-dframe_rhiz = data.table::fread("/Users/rafaelcatoia/MyDrive/08_Consultorias/01_Ana_Julia/04_Projeto4/Dados/Rizhotron.txt")
+dframe_rhiz = data.table::fread("/Users/rafaelcatoia/My Drive/08_Consultorias/01_Ana_Julia/04_Projeto4/Dados/Rizhotron.txt")
 
 dframe_rhiz_ufscar = dframe_rhiz %>%
   filter(Intituto=='UFSCar') %>% select(-Manejo,-Tratamentos) %>% 
@@ -295,7 +295,7 @@ dframe_summ_ccsm %>% select(Safra,Manejo,PortaEnxerto,Copa,`Mean ± SD`) %>% kab
 
 ## Desenvolvimento Vegetativo {.tabset}
 ```{r}
-dframe_dv = data.table::fread("/Users/rafaelcatoia/MyDrive/08_Consultorias/01_Ana_Julia/04_Projeto4/Dados/DesenvVegetativo.txt")
+dframe_dv = data.table::fread("/Users/rafaelcatoia/My Drive/08_Consultorias/01_Ana_Julia/04_Projeto4/Dados/DesenvVegetativo.txt")
 
 #dframe_qf_ufscar = dframe_qf %>%
 #  filter(Instituto=='UFSCar') %>% select(-Manejo) %>% 
@@ -313,7 +313,7 @@ dframe_dv = data.table::fread("/Users/rafaelcatoia/MyDrive/08_Consultorias/01_An
 
 ## Qualidade do fruto {.tabset}
 ```{r}
-dframe_qf = data.table::fread("/Users/rafaelcatoia/MyDrive/08_Consultorias/01_Ana_Julia/04_Projeto4/Dados/QualidadeFruto.txt")
+dframe_qf = data.table::fread("/Users/rafaelcatoia/My Drive/08_Consultorias/01_Ana_Julia/04_Projeto4/Dados/QualidadeFruto.txt")
 
 dframe_qf_ufscar = dframe_qf %>%
   filter(Instituto=='UFSCar') %>% select(-Manejo) %>% 

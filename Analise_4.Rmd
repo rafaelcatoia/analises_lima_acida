@@ -81,7 +81,7 @@ dframe_summ_ufscar %>% ggplot(
     ylab(yname)
 ```
 
-```{r}
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 dframe_summ_ufscar %>% ggplot(
       aes(x=RegHidrico,
           fill=Tratamento,
@@ -115,7 +115,7 @@ dframe_summ_ufscar %>% ggplot(
   ylab(yname)
 ```
 
-```{r}
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 dframe_summ_ufscar %>% ggplot(
   aes(x=RegHidrico,
       fill=Tratamento,
@@ -220,8 +220,8 @@ dframe_summ_ccsm %>% ggplot(
 
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 dframe_summ_ccsm %>% ggplot(
-      aes(x=PortaEnxerto,
-          fill=Copa,
+      aes(x=Copa,
+          fill=PortaEnxerto,
           y=Mean)) +
     geom_bar(stat = 'identity',position = 'dodge')+
     facet_wrap(Safra~Manejo,nrow=1)+
@@ -251,6 +251,26 @@ dframe_summ_ccsm %>% ggplot(
   ylab(yname)
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+dframe_summ_ccsm %>% ggplot(
+  aes(x=Copa,
+          fill=PortaEnxerto,
+      y=Mean)) +
+  geom_bar(stat = 'identity',position = position_dodge(),alpha=0.9)+
+  geom_errorbar(
+    aes(x=Copa,y=Mean,
+        color=PortaEnxerto,
+        ymin=Mean-SD,ymax=Mean+SD),
+    width = 0.2,alpha=0.8,stat = 'identity',color='black',
+    position = position_dodge(0.9))+
+  facet_wrap(Safra~Manejo,nrow=1)+
+  theme_minimal(base_size=14)+theme(legend.position = 'bottom') + 
+  scale_color_gdocs()+
+  scale_fill_gdocs()+
+  ylab(yname)
+```
+
+
 #### Gráfico de Pontos + Média e Erro
 
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
@@ -279,6 +299,34 @@ dframe_rhiz_ccsm %>% ggplot()+
   scale_color_gdocs()+
   scale_fill_gdocs()
 ```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+dframe_rhiz_ccsm %>% ggplot()+
+  facet_wrap(~Safra)+
+  geom_point(aes(x=Copa,
+                 y=Rhizotron,
+                 color=PortaEnxerto,
+                 shape=Manejo),
+             position = position_dodge(width = .75),alpha=0.5)+
+  geom_point(aes(x=Copa,
+                 y=Mean,
+                 color=PortaEnxerto,
+                 shape=Manejo),
+             data=dframe_summ_ccsm,
+             position = position_dodge(width = .75))+
+  geom_errorbar(aes(x=Copa,
+                 y=Mean,
+                 color=PortaEnxerto,
+                 shape=Manejo,
+                ymin=Mean-SD,ymax=Mean+SD),
+                data=dframe_summ_ccsm,
+                width = 0.2,alpha=0.9,
+                position = position_dodge(0.75))+
+  theme_minimal(base_size=14)+theme(legend.position = 'bottom') + 
+  scale_color_gdocs()+
+  scale_fill_gdocs()
+```
+
 
 #### Tabela Resumo
 

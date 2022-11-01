@@ -81,6 +81,19 @@ dframe_summ_ufscar %>% ggplot(
     ylab(yname)
 ```
 
+```{r}
+dframe_summ_ufscar %>% ggplot(
+      aes(x=RegHidrico,
+          fill=Tratamento,
+          y=Mean)) +
+    geom_bar(stat = 'identity',position = 'dodge')+
+    facet_wrap(~Safra)+
+    theme_minimal(base_size=14)+theme(legend.position = 'bottom') + 
+    scale_color_gdocs()+
+    scale_fill_gdocs()+
+    ylab(yname)
+```
+
 #### Gráfico De Barras com erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 dframe_summ_ufscar %>% ggplot(
@@ -91,6 +104,26 @@ dframe_summ_ufscar %>% ggplot(
   geom_errorbar(
     aes(x=Tratamento,y=Mean,
         color=RegHidrico,
+        #linetype=RegHidrico,
+        ymin=Mean-SD,ymax=Mean+SD),
+    width = 0.2,alpha=0.8,stat = 'identity',color='black',
+    position = position_dodge(0.9))+
+  facet_wrap(~Safra)+
+  theme_minimal(base_size=14)+theme(legend.position = 'bottom') + 
+  scale_color_gdocs()+
+  scale_fill_gdocs()+
+  ylab(yname)
+```
+
+```{r}
+dframe_summ_ufscar %>% ggplot(
+  aes(x=RegHidrico,
+      fill=Tratamento,
+      y=Mean)) +
+  geom_bar(stat = 'identity',position = position_dodge(),alpha=0.9)+
+  geom_errorbar(
+    aes(x=RegHidrico,y=Mean,
+        color=Tratamento,
         #linetype=RegHidrico,
         ymin=Mean-SD,ymax=Mean+SD),
     width = 0.2,alpha=0.8,stat = 'identity',color='black',
@@ -128,6 +161,31 @@ dframe_rhiz_ufscar %>% ggplot()+
     scale_fill_gdocs()
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+dframe_rhiz_ufscar %>% ggplot()+
+    facet_wrap(~Safra,scales='free')+
+    geom_point(aes(x=RegHidrico,y=Rhizotron,
+                          color=Tratamento,
+                          shape=Tratamento),
+               position = position_dodge(width = .75),alpha=0.5)+
+    geom_point(aes(x=RegHidrico,y=Mean,
+                          color=Tratamento,
+                          shape=Tratamento),
+               data=dframe_summ_ufscar,
+               position = position_dodge(width = .75))+
+    geom_errorbar(aes(x=RegHidrico,y=Mean,
+                          color=Tratamento,
+                          linetype=Tratamento,
+                      ymin=Mean-SD,ymax=Mean+SD),
+                  data=dframe_summ_ufscar,
+                  width = 0.2,alpha=0.9,
+                  position = position_dodge(0.75))+
+    theme_minimal(base_size=14)+theme(legend.position = 'bottom') + 
+    scale_color_gdocs()+
+    scale_fill_gdocs()
+```
+
+
 #### Tabela Resumo
 
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
@@ -153,7 +211,20 @@ dframe_summ_ccsm %>% ggplot(
           fill=Copa,
           y=Mean)) +
     geom_bar(stat = 'identity',position = 'dodge')+
-    facet_wrap(Safra~Manejo)+
+    facet_wrap(Safra~Manejo,nrow=1)+
+    theme_minimal(base_size=14)+theme(legend.position = 'bottom') + 
+    scale_color_gdocs()+
+    scale_fill_gdocs()+
+    ylab(yname)
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+dframe_summ_ccsm %>% ggplot(
+      aes(x=PortaEnxerto,
+          fill=Copa,
+          y=Mean)) +
+    geom_bar(stat = 'identity',position = 'dodge')+
+    facet_wrap(Safra~Manejo,nrow=1)+
     theme_minimal(base_size=14)+theme(legend.position = 'bottom') + 
     scale_color_gdocs()+
     scale_fill_gdocs()+
@@ -173,7 +244,7 @@ dframe_summ_ccsm %>% ggplot(
         ymin=Mean-SD,ymax=Mean+SD),
     width = 0.2,alpha=0.8,stat = 'identity',color='black',
     position = position_dodge(0.9))+
-  facet_wrap(Safra~Manejo)+
+  facet_wrap(Safra~Manejo,nrow=1)+
   theme_minimal(base_size=14)+theme(legend.position = 'bottom') + 
   scale_color_gdocs()+
   scale_fill_gdocs()+
@@ -223,6 +294,18 @@ dframe_summ_ccsm %>% select(Safra,Manejo,PortaEnxerto,Copa,`Mean ± SD`) %>% kab
 ### CCSM {.tabset}
 
 ## Desenvolvimento Vegetativo {.tabset}
+```{r}
+dframe_dv = data.table::fread("/Users/rafaelcatoia/My Drive/08_Consultorias/01_Ana_Julia/04_Projeto4/Dados/DesenvVegetativo.txt")
+
+#dframe_qf_ufscar = dframe_qf %>%
+#  filter(Instituto=='UFSCar') %>% select(-Manejo) %>% 
+#  mutate(RegHidrico =factor(RegHidrico,levels = c('S','TRF','TRV')))
+#
+#dframe_qf_ccsm = dframe_qf %>%
+#  filter(Instituto=='CCSM') %>% select(-Tratamento) %>%  
+#  mutate(RegHidrico =factor(RegHidrico,levels = c('S','TRF','TRV')))
+```
+
 
 ### UFSCar {.tabset}
 
@@ -269,6 +352,16 @@ summ_qf <- function(dframe,variable_name = ''){
     scale_fill_gdocs()+
     ylab(paste('Média de', variable_name ))
   
+  out$barp_2 <- dframe_summ %>% ggplot(
+    aes(x=Tratamento,
+        fill=RegHidrico,
+        y=Mean)) +
+    geom_bar(stat = 'identity',position = 'dodge')+
+    theme_minimal(base_size=14)+theme(legend.position = 'bottom') + 
+    scale_color_gdocs()+
+    scale_fill_gdocs()+
+    ylab(paste('Média de', variable_name ))
+  
   out$barp_error <-  dframe_summ %>% ggplot(
     aes(x=RegHidrico,
         fill=Tratamento,
@@ -278,6 +371,22 @@ summ_qf <- function(dframe,variable_name = ''){
     geom_errorbar(
       aes(x=RegHidrico,y=Mean,
           color=Tratamento,
+          ymin=Mean-SD,ymax=Mean+SD),
+      width = 0.2,alpha=0.8,stat = 'identity',color='black',
+      position = position_dodge(0.9))+
+    scale_color_gdocs()+
+    scale_fill_gdocs()+
+    ylab(paste('Média de', variable_name ))
+  
+  out$barp_error_2 <-  dframe_summ %>% ggplot(
+    aes(x=Tratamento,
+        fill=RegHidrico,
+        y=Mean)) +
+    geom_bar(stat = 'identity',position = 'dodge')+
+    theme_minimal(base_size=14)+theme(legend.position = 'bottom') +
+    geom_errorbar(
+      aes(x=Tratamento,y=Mean,
+          color=RegHidrico,
           ymin=Mean-SD,ymax=Mean+SD),
       width = 0.2,alpha=0.8,stat = 'identity',color='black',
       position = position_dodge(0.9))+
@@ -346,7 +455,6 @@ summ_qf <- function(dframe,variable_name = ''){
   return(out)
 }
 
-
 summ_qf_ccsm <- function(dframe,variable_name = ''){
   if (variable_name==''){
     stop()
@@ -367,6 +475,16 @@ summ_qf_ccsm <- function(dframe,variable_name = ''){
   out$dframe_summ <- dframe_summ
   
   out$barp <- dframe_summ %>% ggplot(
+    aes(x=Manejo,
+        fill=Tratamento,
+        y=Mean)) +
+    geom_bar(stat = 'identity',position = 'dodge')+
+    theme_minimal(base_size=14)+theme(legend.position = 'bottom') + 
+    scale_color_gdocs()+
+    scale_fill_gdocs()+
+    ylab(paste('Média de', variable_name ))
+  
+  out$barp_2 <- dframe_summ %>% ggplot(
     aes(x=Tratamento,
         fill=Manejo,
         y=Mean)) +
@@ -377,6 +495,22 @@ summ_qf_ccsm <- function(dframe,variable_name = ''){
     ylab(paste('Média de', variable_name ))
   
   out$barp_error <-  dframe_summ %>% ggplot(
+    aes(x=Manejo,
+        fill=Tratamento,
+        y=Mean)) +
+    geom_bar(stat = 'identity',position = 'dodge')+
+    theme_minimal(base_size=14)+theme(legend.position = 'bottom') +
+    geom_errorbar(
+      aes(x=Manejo,y=Mean,
+          color=Tratamento,
+          ymin=Mean-SD,ymax=Mean+SD),
+      width = 0.2,alpha=0.8,stat = 'identity',color='black',
+      position = position_dodge(0.9))+
+    scale_color_gdocs()+
+    scale_fill_gdocs()+
+    ylab(paste('Média de', variable_name ))
+  
+   out$barp_error_2 <-  dframe_summ %>% ggplot(
     aes(x=Tratamento,
         fill=Manejo,
         y=Mean)) +
@@ -393,35 +527,6 @@ summ_qf_ccsm <- function(dframe,variable_name = ''){
     ylab(paste('Média de', variable_name ))
   
   out$mean_desv_plot <-
-    dframe %>% ggplot()+
-    geom_point(aes(
-      x=Tratamento,
-      y=Y,
-      color=Manejo,
-      shape=Manejo),
-      position = position_dodge(width = .75),alpha=0.5)+
-    geom_point(aes(
-      x=Tratamento,
-      y=Mean,
-      color=Manejo,
-      shape=Manejo),
-      data=dframe_summ,
-      position = position_dodge(width = .75))+
-    geom_errorbar(aes(
-      x=Tratamento,
-      y=Mean,
-      color=Manejo,
-      shape=Manejo,
-      ymin=Mean-SD,ymax=Mean+SD),
-      data=dframe_summ,
-      width = 0.2,alpha=0.9,
-      position = position_dodge(0.75))+
-    theme_minimal(base_size=14)+theme(legend.position = 'bottom') + 
-    scale_color_gdocs()+
-    scale_fill_gdocs()+
-    ylab(paste('Média de', variable_name ))
-  
-  out$mean_desv_plot2 <-
     dframe %>% ggplot()+
     geom_point(aes(
       x=Manejo,
@@ -449,6 +554,35 @@ summ_qf_ccsm <- function(dframe,variable_name = ''){
     scale_color_gdocs()+
     scale_fill_gdocs()+
     ylab(paste('Média de', variable_name ))
+  
+  out$mean_desv_plot_2 <-
+    dframe %>% ggplot()+
+    geom_point(aes(
+      x=Tratamento,
+      y=Y,
+      color=Manejo,
+      shape=Manejo),
+      position = position_dodge(width = .75),alpha=0.5)+
+    geom_point(aes(
+      x=Tratamento,
+      y=Mean,
+      color=Manejo,
+      shape=Manejo),
+      data=dframe_summ,
+      position = position_dodge(width = .75))+
+    geom_errorbar(aes(
+      x=Tratamento,
+      y=Mean,
+      color=Manejo,
+      shape=Manejo,
+      ymin=Mean-SD,ymax=Mean+SD),
+      data=dframe_summ,
+      width = 0.2,alpha=0.9,
+      position = position_dodge(0.75))+
+    theme_minimal(base_size=14)+theme(legend.position = 'bottom') + 
+    scale_color_gdocs()+
+    scale_fill_gdocs()+
+    ylab(paste('Média de', variable_name ))
 
   return(out)
 }
@@ -468,14 +602,29 @@ results <- summ_qf(dframe_qf_ufscar,variable_name = "Massa")
 results$barp
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_2
+```
+
 ##### Gráfico De Barras com erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$barp_error
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot2
 ```
 
@@ -494,15 +643,29 @@ results <- summ_qf(dframe_qf_ufscar,variable_name = "Altura")
 results$barp
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_2
+```
+
 ##### Gráfico De Barras com erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$barp_error
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
+```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot2
 ```
 
@@ -521,15 +684,29 @@ results <- summ_qf(dframe_qf_ufscar,variable_name = "Largura")
 results$barp
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_2
+```
+
 ##### Gráfico De Barras com erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$barp_error
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
+```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot2
 ```
 
@@ -548,15 +725,29 @@ results <- summ_qf(dframe_qf_ufscar,variable_name = "AL")
 results$barp
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_2
+```
+
 ##### Gráfico De Barras com erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$barp_error
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
+```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot2
 ```
 
@@ -575,15 +766,29 @@ results <- summ_qf(dframe_qf_ufscar,variable_name = "Suco")
 results$barp
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_2
+```
+
 ##### Gráfico De Barras com erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$barp_error
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
+```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot2
 ```
 
@@ -602,15 +807,29 @@ results <- summ_qf(dframe_qf_ufscar,variable_name = "Acidez")
 results$barp
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_2
+```
+
 ##### Gráfico De Barras com erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$barp_error
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
+```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot2
 ```
 
@@ -629,15 +848,29 @@ results <- summ_qf(dframe_qf_ufscar,variable_name = "BrixCorr")
 results$barp
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_2
+```
+
 ##### Gráfico De Barras com erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$barp_error
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
+```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot2
 ```
 
@@ -656,15 +889,29 @@ results <- summ_qf(dframe_qf_ufscar,variable_name = "Ratio")
 results$barp
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_2
+```
+
 ##### Gráfico De Barras com erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$barp_error
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
+```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot2
 ```
 
@@ -683,15 +930,29 @@ results <- summ_qf(dframe_qf_ufscar,variable_name = "IT")
 results$barp
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_2
+```
+
 ##### Gráfico De Barras com erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$barp_error
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
+```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot2
 ```
 
@@ -710,15 +971,29 @@ results <- summ_qf(dframe_qf_ufscar,variable_name = "VitC")
 results$barp
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_2
+```
+
 ##### Gráfico De Barras com erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$barp_error
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
+```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot2
 ```
 
@@ -734,10 +1009,13 @@ results$dframe_summ %>% kable_cust()
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results <- summ_qf_ccsm(dframe_qf_ccsm,variable_name = "Massa")
 ```
-
 ##### Gráfico de Barras
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$barp
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_2
 ```
 
 ##### Gráfico De Barras com erro
@@ -745,9 +1023,20 @@ results$barp
 results$barp_error
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot2
 ```
 
@@ -766,15 +1055,29 @@ results <- summ_qf_ccsm(dframe_qf_ccsm,variable_name = "Altura")
 results$barp
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_2
+```
+
 ##### Gráfico De Barras com erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$barp_error
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
+```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot2
 ```
 
@@ -793,15 +1096,29 @@ results <- summ_qf_ccsm(dframe_qf_ccsm,variable_name = "Largura")
 results$barp
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_2
+```
+
 ##### Gráfico De Barras com erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$barp_error
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
+```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot2
 ```
 
@@ -820,15 +1137,29 @@ results <- summ_qf_ccsm(dframe_qf_ccsm,variable_name = "AL")
 results$barp
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_2
+```
+
 ##### Gráfico De Barras com erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$barp_error
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
+```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot2
 ```
 
@@ -841,10 +1172,13 @@ results$dframe_summ %>% kable_cust()
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results <- summ_qf_ccsm(dframe_qf_ccsm,variable_name = "Suco")
 ```
-
 ##### Gráfico de Barras
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$barp
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_2
 ```
 
 ##### Gráfico De Barras com erro
@@ -852,10 +1186,20 @@ results$barp
 results$barp_error
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
+```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot2
 ```
 
@@ -874,15 +1218,29 @@ results <- summ_qf_ccsm(dframe_qf_ccsm,variable_name = "Acidez")
 results$barp
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_2
+```
+
 ##### Gráfico De Barras com erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$barp_error
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
+```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot2
 ```
 
@@ -901,15 +1259,29 @@ results <- summ_qf_ccsm(dframe_qf_ccsm,variable_name = "BrixCorr")
 results$barp
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_2
+```
+
 ##### Gráfico De Barras com erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$barp_error
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
+```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot2
 ```
 
@@ -928,15 +1300,29 @@ results <- summ_qf_ccsm(dframe_qf_ccsm,variable_name = "Ratio")
 results$barp
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_2
+```
+
 ##### Gráfico De Barras com erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$barp_error
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
+```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot2
 ```
 
@@ -955,15 +1341,29 @@ results <- summ_qf_ccsm(dframe_qf_ccsm,variable_name = "IT")
 results$barp
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_2
+```
+
 ##### Gráfico De Barras com erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$barp_error
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
+```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot2
 ```
 
@@ -971,6 +1371,7 @@ results$mean_desv_plot2
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$dframe_summ %>% kable_cust()
 ```
+
 
 #### VitC {.tabset}
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
@@ -982,15 +1383,29 @@ results <- summ_qf_ccsm(dframe_qf_ccsm,variable_name = "VitC")
 results$barp
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_2
+```
+
 ##### Gráfico De Barras com erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$barp_error
 ```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
+results$barp_error_2
+```
+
 ##### Gráfico de Pontos + Média e Erro
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot
+```
 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$mean_desv_plot2
 ```
 
@@ -998,6 +1413,7 @@ results$mean_desv_plot2
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 results$dframe_summ %>% kable_cust()
 ```
+
 
 
 

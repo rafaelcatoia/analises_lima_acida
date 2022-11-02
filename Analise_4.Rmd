@@ -98,6 +98,7 @@ dframe_summ_ufscar %>% ggplot(
     ylab(yname)
 ```
 
+
 ##### Gráfico De Barras com erro {.tabset}
 
 ###### Option 1
@@ -207,16 +208,34 @@ dframe_summ_ufscar %>% select(Safra,RegHidrico,Tratamento,`Mean ± SD`) %>% kabl
 
 ##### 2021 
 ```{r,fig.align='center',fig.height=8,fig.width=8,dpi=200}
-fit_lm <- lm(data=dframe_rhiz_ufscar %>% filter(Safra=='2021'),
+df_tk <- dframe_rhiz_ufscar %>% filter(Safra=='2021')
+fit_lm <- lm(data=df_tk,
           formula = Rhizotron~RegHidrico+Tratamento+RegHidrico*Tratamento)
 
-fit_aov <- aov(data=dframe_rhiz_ufscar %>% filter(Safra=='2021'),
+fit_aov <- aov(data=df_tk,
           formula = Rhizotron~RegHidrico+Tratamento+RegHidrico*Tratamento)
 
 summ_lm = summary(fit_lm)
-
 summ_aov = summary(fit_aov)
+```
 
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=200}
+tk <- TukeyHSD(fit_aov)
+mtcomp <- multcompView::multcompLetters4(fit_aov,tk)
+
+summ_tk <- df_tk %>% group_by(RegHidrico,Tratamento) %>% 
+  summarise(mean=mean(Rhizotron)) %>% arrange(-mean) 
+
+summ_tk$Group =as.data.frame.list(mtcomp$`RegHidrico:Tratamento`)[,1]
+
+summ_tk %>% kable_cust()
+#tx <- with(data = df_tk,interaction(RegHidrico,Tratamento))
+#amod <- aov(Rhizotron ~ RegHidrico+Tratamento+tx, data=df_tk)
+#Tukey = agricolae::HSD.test(amod,trt = 'tx',group=TRUE)
+#Tukey$groups %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=200}
 par(mfrow=c(2,2))
 plot(fit_lm)
 par(mfrow=c(1,1))
@@ -228,30 +247,40 @@ summ_aov
 
 ```{r}
 summ_lm$coefficients %>% kable_cust()
-```
-
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
-df_tk <- dframe_rhiz_ufscar %>% filter(Safra=='2021')
-
-tx <- with(data = df_tk,interaction(RegHidrico,Tratamento))
-amod <- aov(Rhizotron ~ RegHidrico+Tratamento+tx, data=df_tk)
-
-Tukey = agricolae::HSD.test(amod,trt = 'tx',group=TRUE)
-Tukey$groups %>% kable_cust()
 ```
 
 ##### 2022 
 ```{r,fig.align='center',fig.height=8,fig.width=8,dpi=200}
-fit_lm <- lm(data=dframe_rhiz_ufscar %>% filter(Safra=='2022'),
+df_tk <- dframe_rhiz_ufscar %>% filter(Safra=='2022')
+fit_lm <- lm(data=df_tk,
           formula = Rhizotron~RegHidrico+Tratamento+RegHidrico*Tratamento)
 
-fit_aov <- aov(data=dframe_rhiz_ufscar %>% filter(Safra=='2022'),
+fit_aov <- aov(data=df_tk,
           formula = Rhizotron~RegHidrico+Tratamento+RegHidrico*Tratamento)
 
 summ_lm = summary(fit_lm)
-
 summ_aov = summary(fit_aov)
+```
 
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=200}
+tk <- TukeyHSD(fit_aov)
+mtcomp <- multcompView::multcompLetters4(fit_aov,tk)
+
+summ_tk <- df_tk %>% group_by(RegHidrico,Tratamento) %>% 
+  summarise(mean=mean(Rhizotron)) %>% arrange(-mean) 
+
+summ_tk$Group = as.data.frame.list(mtcomp$`RegHidrico:Tratamento`)[,1]
+
+summ_tk %>% kable_cust()
+
+#tx <- with(data = df_tk,interaction(RegHidrico,Tratamento))
+#amod <- aov(Rhizotron ~ RegHidrico+Tratamento+tx, data=df_tk)
+#
+#Tukey = agricolae::HSD.test(amod,trt = 'tx',group=TRUE)
+#Tukey$groups %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=200}
 par(mfrow=c(2,2))
 plot(fit_lm)
 par(mfrow=c(1,1))
@@ -265,17 +294,8 @@ summ_aov
 summ_lm$coefficients %>% kable_cust()
 ```
 
-```{r,fig.align='center',fig.height=8,fig.width=8,dpi=200}
-df_tk <- dframe_rhiz_ufscar %>% filter(Safra=='2022')
 
-tx <- with(data = df_tk,interaction(RegHidrico,Tratamento))
-amod <- aov(Rhizotron ~ RegHidrico+Tratamento+tx, data=df_tk)
-
-Tukey = agricolae::HSD.test(amod,trt = 'tx',group=TRUE)
-Tukey$groups %>% kable_cust()
-```
-
-### CCSM {.tabset}
+### CCSM 
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 dframe_summ_ccsm = dframe_rhiz_ccsm %>%
     select(Safra,Manejo,Copa,PortaEnxerto,Rhizotron) %>%
@@ -285,7 +305,12 @@ dframe_summ_ccsm = dframe_rhiz_ccsm %>%
   mutate(`Mean ± SD`=paste(round(Mean,5),'±',round(SD,5)))
 ```
 
-#### Gráfico de Barras 
+#### Graficos {.tabset}
+
+##### Gráfico de Barras {.tabset}
+
+###### Option 1
+
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 yname = 'Média de rhizotron'
 dframe_summ_ccsm %>% ggplot(
@@ -300,6 +325,7 @@ dframe_summ_ccsm %>% ggplot(
     ylab(yname)
 ```
 
+###### Option 2
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 dframe_summ_ccsm %>% ggplot(
       aes(x=Copa,
@@ -313,7 +339,9 @@ dframe_summ_ccsm %>% ggplot(
     ylab(yname)
 ```
 
-#### Gráfico de Barras com erro
+##### Gráfico de Barras com erro {.tabset}
+
+###### Option 1
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 dframe_summ_ccsm %>% ggplot(
   aes(x=PortaEnxerto,
@@ -333,6 +361,7 @@ dframe_summ_ccsm %>% ggplot(
   ylab(yname)
 ```
 
+###### Option 2
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 dframe_summ_ccsm %>% ggplot(
   aes(x=Copa,
@@ -353,8 +382,9 @@ dframe_summ_ccsm %>% ggplot(
 ```
 
 
-#### Gráfico de Pontos + Média e Erro
+##### Gráfico de Pontos + Média e Erro {.tabset}
 
+###### Option 1
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 dframe_rhiz_ccsm %>% ggplot()+
   facet_wrap(~Safra)+
@@ -382,6 +412,7 @@ dframe_rhiz_ccsm %>% ggplot()+
   scale_fill_gdocs()
 ```
 
+###### Option 2
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 dframe_rhiz_ccsm %>% ggplot()+
   facet_wrap(~Safra)+
@@ -410,10 +441,106 @@ dframe_rhiz_ccsm %>% ggplot()+
 ```
 
 
-#### Tabela Resumo
+##### Tabela Resumo
 
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=200}
 dframe_summ_ccsm %>% select(Safra,Manejo,PortaEnxerto,Copa,`Mean ± SD`) %>% kable_cust(cap = 'Média e Desvio Padrao - Rhizotron')
+```
+
+#### Modelo {.tabset}
+
+##### 2021 
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=200}
+df_tk <- dframe_rhiz_ccsm %>% filter(Safra=='2021')
+fit_lm <- lm(data=df_tk,
+          formula = Rhizotron~Manejo+Copa +PortaEnxerto+
+            Manejo*Copa+Manejo*PortaEnxerto + Copa*PortaEnxerto+
+            Manejo*Copa*PortaEnxerto)
+
+fit_aov <- aov(data=df_tk,
+          formula = Rhizotron~Manejo+Copa +PortaEnxerto+
+            Manejo*Copa+Manejo*PortaEnxerto + Copa*PortaEnxerto+
+            Manejo*Copa*PortaEnxerto)
+
+summ_lm = summary(fit_lm)
+summ_aov = summary(fit_aov)
+```
+
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=200}
+tk <- TukeyHSD(fit_aov)
+mtcomp <- multcompView::multcompLetters4(fit_aov,tk)
+
+summ_tk <- df_tk %>% group_by(Manejo,Copa,PortaEnxerto) %>% 
+  summarise(mean=mean(Rhizotron)) %>% arrange(-mean) 
+
+summ_tk$Group =as.data.frame.list(mtcomp$`Manejo:Copa:PortaEnxerto`)[,1]
+
+summ_tk %>% kable_cust()
+#tx <- with(data = df_tk,interaction(RegHidrico,Tratamento))
+#amod <- aov(Rhizotron ~ RegHidrico+Tratamento+tx, data=df_tk)
+#Tukey = agricolae::HSD.test(amod,trt = 'tx',group=TRUE)
+#Tukey$groups %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=200}
+par(mfrow=c(2,2))
+plot(fit_lm)
+par(mfrow=c(1,1))
+```
+
+```{r}
+summ_aov
+```
+
+```{r}
+summ_lm$coefficients %>% kable_cust()
+```
+
+##### 2022 
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=200}
+df_tk <- dframe_rhiz_ccsm %>% filter(Safra=='2022')
+fit_lm <- lm(data=df_tk,
+          formula = Rhizotron~Manejo+Copa +PortaEnxerto+
+            Manejo*Copa+Manejo*PortaEnxerto + Copa*PortaEnxerto+
+            Manejo*Copa*PortaEnxerto)
+
+fit_aov <- aov(data=df_tk,
+          formula = Rhizotron~Manejo+Copa +PortaEnxerto+
+            Manejo*Copa+Manejo*PortaEnxerto + Copa*PortaEnxerto+
+            Manejo*Copa*PortaEnxerto)
+
+summ_lm = summary(fit_lm)
+summ_aov = summary(fit_aov)
+```
+
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=200}
+tk <- TukeyHSD(fit_aov)
+mtcomp <- multcompView::multcompLetters4(fit_aov,tk)
+
+summ_tk <- df_tk %>% group_by(Manejo,Copa,PortaEnxerto) %>% 
+  summarise(mean=mean(Rhizotron)) %>% arrange(-mean) 
+
+summ_tk$Group =as.data.frame.list(mtcomp$`Manejo:Copa:PortaEnxerto`)[,1]
+
+summ_tk %>% kable_cust()
+#tx <- with(data = df_tk,interaction(RegHidrico,Tratamento))
+#amod <- aov(Rhizotron ~ RegHidrico+Tratamento+tx, data=df_tk)
+#Tukey = agricolae::HSD.test(amod,trt = 'tx',group=TRUE)
+#Tukey$groups %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=200}
+par(mfrow=c(2,2))
+plot(fit_lm)
+par(mfrow=c(1,1))
+```
+
+```{r}
+summ_aov
+```
+
+```{r}
+summ_lm$coefficients %>% kable_cust()
 ```
 
 

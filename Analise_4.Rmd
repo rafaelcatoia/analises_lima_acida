@@ -1330,29 +1330,32 @@ models <- fit_qf_ccsm(dframe_qf_ccsm,'Massa')
 
 ##### Graficos {.tabset}
 
-###### Gráfico de Barras
+###### Barplot 1
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
 results$barp
 ```
 
+###### Barplot 2
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
 results$barp_2
 ```
 
-###### Gráfico De Barras com erro
+###### Barplot + SD 1
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
 results$barp_error
 ```
 
+###### Barplot + SD 2
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
 results$barp_error_2
 ```
 
-###### Gráfico de Pontos + Média e Erro
+###### Mean Error 1 
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
 results$mean_desv_plot
 ```
 
+###### Mean Error 2 
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
 results$mean_desv_plot_2
 ```
@@ -1385,7 +1388,7 @@ par(mfrow=c(1,1))
 
 ###### 2x2 Interaction
 
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100,results = "asis"}
 lapply(models$tukey$fit_noInt3_aov,kable_cust)
 ```
 
@@ -1406,7 +1409,7 @@ par(mfrow=c(1,1))
 
 ###### Copa*PortaEnxerto Interaction + Manejo
 
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100,results = "asis"}
 lapply(models$tukey$fit_CopPort_aov,kable_cust)
 ```
 
@@ -1426,7 +1429,7 @@ par(mfrow=c(1,1))
 
 
 ###### Main Effects
-```{r}
+```{r,results = "asis"}
 lapply(models$tukey$fit_mainEffect_aov,kable_cust)
 ```
 
@@ -1434,7 +1437,7 @@ lapply(models$tukey$fit_mainEffect_aov,kable_cust)
 summary(models$models$fit_mainEffect_aov)
 ```
 
-```{r}
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
 summary(models$models$fit_mainEffect)$coeff %>% kable_cust()
 ```
 
@@ -1449,329 +1452,37 @@ par(mfrow=c(1,1))
 #### Altura
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
 results <- summ_qf_ccsm(dframe_qf_ccsm,variable_name = "Altura")
+models <- fit_qf_ccsm(dframe_qf_ccsm,'Altura')
 ```
 
-##### Gráfico de Barras
+##### Graficos {.tabset}
+
+###### Barplot 1
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
 results$barp
 ```
 
+###### Barplot 2
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
 results$barp_2
 ```
 
-##### Gráfico De Barras com erro
+###### Barplot + SD 1
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
 results$barp_error
 ```
 
+###### Barplot + SD 2
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
 results$barp_error_2
 ```
 
-##### Gráfico de Pontos + Média e Erro
+###### Mean Error 1 
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
 results$mean_desv_plot
 ```
 
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$mean_desv_plot_2
-```
-
-##### Tabela Resumo
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$dframe_summ %>% kable_cust()
-```
-
-#### Largura {.tabset}
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results <- summ_qf_ccsm(dframe_qf_ccsm,variable_name = "Largura")
-```
-
-##### Gráfico de Barras
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$barp
-```
-
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$barp_2
-```
-
-##### Gráfico De Barras com erro
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$barp_error
-```
-
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$barp_error_2
-```
-
-##### Gráfico de Pontos + Média e Erro
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$mean_desv_plot
-```
-
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$mean_desv_plot_2
-```
-
-##### Tabela Resumo
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$dframe_summ %>% kable_cust()
-```
-
-#### AL {.tabset}
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results <- summ_qf_ccsm(dframe_qf_ccsm,variable_name = "AL")
-```
-
-##### Gráfico de Barras
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$barp
-```
-
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$barp_2
-```
-
-##### Gráfico De Barras com erro
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$barp_error
-```
-
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$barp_error_2
-```
-
-##### Gráfico de Pontos + Média e Erro
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$mean_desv_plot
-```
-
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$mean_desv_plot_2
-```
-
-##### Tabela Resumo
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$dframe_summ %>% kable_cust()
-```
-
-#### Suco {.tabset}
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results <- summ_qf_ccsm(dframe_qf_ccsm,variable_name = "Suco")
-```
-##### Gráfico de Barras
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$barp
-```
-
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$barp_2
-```
-
-##### Gráfico De Barras com erro
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$barp_error
-```
-
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$barp_error_2
-```
-
-##### Gráfico de Pontos + Média e Erro
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$mean_desv_plot
-```
-
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$mean_desv_plot_2
-```
-
-##### Tabela Resumo
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$dframe_summ %>% kable_cust()
-```
-
-#### Acidez {.tabset}
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results <- summ_qf_ccsm(dframe_qf_ccsm,variable_name = "Acidez")
-```
-
-##### Gráfico de Barras
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$barp
-```
-
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$barp_2
-```
-
-##### Gráfico De Barras com erro
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$barp_error
-```
-
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$barp_error_2
-```
-
-##### Gráfico de Pontos + Média e Erro
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$mean_desv_plot
-```
-
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$mean_desv_plot_2
-```
-
-##### Tabela Resumo
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$dframe_summ %>% kable_cust()
-```
-
-#### BrixCorr {.tabset}
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results <- summ_qf_ccsm(dframe_qf_ccsm,variable_name = "BrixCorr")
-```
-
-##### Gráfico de Barras
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$barp
-```
-
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$barp_2
-```
-
-##### Gráfico De Barras com erro
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$barp_error
-```
-
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$barp_error_2
-```
-
-##### Gráfico de Pontos + Média e Erro
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$mean_desv_plot
-```
-
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$mean_desv_plo 
-```
-
-##### Tabela Resumo
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$dframe_summ %>% kable_cust()
-```
-
-#### Ratio {.tabset}
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results <- summ_qf_ccsm(dframe_qf_ccsm,variable_name = "Ratio")
-```
-
-##### Gráfico de Barras
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$barp
-```
-
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$barp_2
-```
-
-##### Gráfico De Barras com erro
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$barp_error
-```
-
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$barp_error_2
-```
-
-##### Gráfico de Pontos + Média e Erro
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$mean_desv_plot
-```
-
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$mean_desv_plot_2
-```
-
-##### Tabela Resumo
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$dframe_summ %>% kable_cust()
-```
-
-#### IT {.tabset}
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results <- summ_qf_ccsm(dframe_qf_ccsm,variable_name = "IT")
-```
-
-##### Gráfico de Barras
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$barp
-```
-
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$barp_2
-```
-
-##### Gráfico De Barras com erro
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$barp_error
-```
-
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$barp_error_2
-```
-
-##### Gráfico de Pontos + Média e Erro
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$mean_desv_plot
-```
-
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$mean_desv_plot_2
-```
-
-##### Tabela Resumo
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$dframe_summ %>% kable_cust()
-```
-
-
-#### VitC 
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results <- summ_qf_ccsm(dframe_qf_ccsm,variable_name = "VitC")
-```
-
-##### Gráficos {.tabset}
-
-###### Gráfico de Barras
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$barp
-```
-
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$barp_2
-```
-
-###### Gráfico De Barras com erro
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$barp_error
-```
-
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$barp_error_2
-```
-
-###### Gráfico de Pontos + Média e Erro
-```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-results$mean_desv_plot
-```
-
+###### Mean Error 2 
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
 results$mean_desv_plot_2
 ```
@@ -1783,8 +1494,830 @@ results$dframe_summ %>% kable_cust()
 
 ##### Modelos {.tabset}
 
+###### Full 
 ```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
-dframe_qf_ccsm 
+models$tukey$fit_full_aov %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+summary(models$models$fit_full_aov)
+```
+
+```{r}
+summary(models$models$fit_full)$coeff %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=100}
+par(mfrow=c(2,2))
+plot(models$models$fit_full_aov)
+par(mfrow=c(1,1))
+```
+
+###### 2x2 Interaction
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100,results = "asis"}
+lapply(models$tukey$fit_noInt3_aov,kable_cust)
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+summary(models$models$fit_noInt3_aov)
+```
+
+```{r}
+summary(models$models$fit_noInt3)$coeff %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=100}
+par(mfrow=c(2,2))
+plot(models$models$fit_noInt3_aov)
+par(mfrow=c(1,1))
+```
+
+
+###### Copa*PortaEnxerto Interaction + Manejo
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100,results = "asis"}
+lapply(models$tukey$fit_CopPort_aov,kable_cust)
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+summary(models$models$fit_CopPort_aov)
+```
+
+```{r}
+summary(models$models$fit_CopPort)$coeff %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=100}
+par(mfrow=c(2,2))
+plot(models$models$fit_CopPort_aov)
+par(mfrow=c(1,1))
+```
+
+
+###### Main Effects
+```{r,results = "asis"}
+lapply(models$tukey$fit_mainEffect_aov,kable_cust)
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+summary(models$models$fit_mainEffect_aov)
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+summary(models$models$fit_mainEffect)$coeff %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=100}
+par(mfrow=c(2,2))
+plot(models$models$fit_mainEffect_aov)
+par(mfrow=c(1,1))
+```
+
+#### AL
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results <- summ_qf_ccsm(dframe_qf_ccsm,variable_name = "AL")
+models <- fit_qf_ccsm(dframe_qf_ccsm,'AL')
+```
+
+##### Graficos {.tabset}
+
+###### Barplot 1
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$barp
+```
+
+###### Barplot 2
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$barp_2
+```
+
+###### Barplot + SD 1
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$barp_error
+```
+
+###### Barplot + SD 2
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$barp_error_2
+```
+
+###### Mean Error 1 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$mean_desv_plot
+```
+
+###### Mean Error 2 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$mean_desv_plot_2
+```
+
+###### Tabela Resumo
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$dframe_summ %>% kable_cust()
+```
+
+##### Modelos {.tabset}
+
+###### Full 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+models$tukey$fit_full_aov %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+summary(models$models$fit_full_aov)
+```
+
+```{r}
+summary(models$models$fit_full)$coeff %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=100}
+par(mfrow=c(2,2))
+plot(models$models$fit_full_aov)
+par(mfrow=c(1,1))
+```
+
+###### 2x2 Interaction
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100,results = "asis"}
+lapply(models$tukey$fit_noInt3_aov,kable_cust)
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+summary(models$models$fit_noInt3_aov)
+```
+
+```{r}
+summary(models$models$fit_noInt3)$coeff %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=100}
+par(mfrow=c(2,2))
+plot(models$models$fit_noInt3_aov)
+par(mfrow=c(1,1))
+```
+
+
+###### Copa*PortaEnxerto Interaction + Manejo
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100,results = "asis"}
+lapply(models$tukey$fit_CopPort_aov,kable_cust)
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+summary(models$models$fit_CopPort_aov)
+```
+
+```{r}
+summary(models$models$fit_CopPort)$coeff %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=100}
+par(mfrow=c(2,2))
+plot(models$models$fit_CopPort_aov)
+par(mfrow=c(1,1))
+```
+
+
+###### Main Effects
+```{r,results = "asis"}
+lapply(models$tukey$fit_mainEffect_aov,kable_cust)
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+summary(models$models$fit_mainEffect_aov)
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+summary(models$models$fit_mainEffect)$coeff %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=100}
+par(mfrow=c(2,2))
+plot(models$models$fit_mainEffect_aov)
+par(mfrow=c(1,1))
+```
+
+#### Acidez
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results <- summ_qf_ccsm(dframe_qf_ccsm,variable_name = "Acidez")
+models <- fit_qf_ccsm(dframe_qf_ccsm,'Acidez')
+```
+
+##### Graficos {.tabset}
+
+###### Barplot 1
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$barp
+```
+
+###### Barplot 2
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$barp_2
+```
+
+###### Barplot + SD 1
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$barp_error
+```
+
+###### Barplot + SD 2
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$barp_error_2
+```
+
+###### Mean Error 1 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$mean_desv_plot
+```
+
+###### Mean Error 2 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$mean_desv_plot_2
+```
+
+###### Tabela Resumo
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$dframe_summ %>% kable_cust()
+```
+
+##### Modelos {.tabset}
+
+###### Full 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+models$tukey$fit_full_aov %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+summary(models$models$fit_full_aov)
+```
+
+```{r}
+summary(models$models$fit_full)$coeff %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=100}
+par(mfrow=c(2,2))
+plot(models$models$fit_full_aov)
+par(mfrow=c(1,1))
+```
+
+###### 2x2 Interaction
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100,results = "asis"}
+lapply(models$tukey$fit_noInt3_aov,kable_cust)
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+summary(models$models$fit_noInt3_aov)
+```
+
+```{r}
+summary(models$models$fit_noInt3)$coeff %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=100}
+par(mfrow=c(2,2))
+plot(models$models$fit_noInt3_aov)
+par(mfrow=c(1,1))
+```
+
+
+###### Copa*PortaEnxerto Interaction + Manejo
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100,results = "asis"}
+lapply(models$tukey$fit_CopPort_aov,kable_cust)
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+summary(models$models$fit_CopPort_aov)
+```
+
+```{r}
+summary(models$models$fit_CopPort)$coeff %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=100}
+par(mfrow=c(2,2))
+plot(models$models$fit_CopPort_aov)
+par(mfrow=c(1,1))
+```
+
+###### Main Effects
+```{r,results = "asis"}
+lapply(models$tukey$fit_mainEffect_aov,kable_cust)
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+summary(models$models$fit_mainEffect_aov)
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+summary(models$models$fit_mainEffect)$coeff %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=100}
+par(mfrow=c(2,2))
+plot(models$models$fit_mainEffect_aov)
+par(mfrow=c(1,1))
+```
+
+#### BrixCorr
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results <- summ_qf_ccsm(dframe_qf_ccsm,variable_name = "BrixCorr")
+models <- fit_qf_ccsm(dframe_qf_ccsm,'BrixCorr')
+```
+
+##### Graficos {.tabset}
+
+###### Barplot 1
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$barp
+```
+
+###### Barplot 2
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$barp_2
+```
+
+###### Barplot + SD 1
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$barp_error
+```
+
+###### Barplot + SD 2
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$barp_error_2
+```
+
+###### Mean Error 1 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$mean_desv_plot
+```
+
+###### Mean Error 2 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$mean_desv_plot_2
+```
+
+###### Tabela Resumo
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$dframe_summ %>% kable_cust()
+```
+
+##### Modelos {.tabset}
+
+###### Full 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+models$tukey$fit_full_aov %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+summary(models$models$fit_full_aov)
+```
+
+```{r}
+summary(models$models$fit_full)$coeff %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=100}
+par(mfrow=c(2,2))
+plot(models$models$fit_full_aov)
+par(mfrow=c(1,1))
+```
+
+###### 2x2 Interaction
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100,results = "asis"}
+lapply(models$tukey$fit_noInt3_aov,kable_cust)
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+summary(models$models$fit_noInt3_aov)
+```
+
+```{r}
+summary(models$models$fit_noInt3)$coeff %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=100}
+par(mfrow=c(2,2))
+plot(models$models$fit_noInt3_aov)
+par(mfrow=c(1,1))
+```
+
+
+###### Copa*PortaEnxerto Interaction + Manejo
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100,results = "asis"}
+lapply(models$tukey$fit_CopPort_aov,kable_cust)
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+summary(models$models$fit_CopPort_aov)
+```
+
+```{r}
+summary(models$models$fit_CopPort)$coeff %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=100}
+par(mfrow=c(2,2))
+plot(models$models$fit_CopPort_aov)
+par(mfrow=c(1,1))
+```
+
+###### Main Effects
+```{r,results = "asis"}
+lapply(models$tukey$fit_mainEffect_aov,kable_cust)
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+summary(models$models$fit_mainEffect_aov)
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+summary(models$models$fit_mainEffect)$coeff %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=100}
+par(mfrow=c(2,2))
+plot(models$models$fit_mainEffect_aov)
+par(mfrow=c(1,1))
+```
+
+#### Ratio
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results <- summ_qf_ccsm(dframe_qf_ccsm,variable_name = "Ratio")
+models <- fit_qf_ccsm(dframe_qf_ccsm,'Ratio')
+```
+
+##### Graficos {.tabset}
+
+###### Barplot 1
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$barp
+```
+
+###### Barplot 2
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$barp_2
+```
+
+###### Barplot + SD 1
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$barp_error
+```
+
+###### Barplot + SD 2
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$barp_error_2
+```
+
+###### Mean Error 1 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$mean_desv_plot
+```
+
+###### Mean Error 2 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$mean_desv_plot_2
+```
+
+###### Tabela Resumo
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$dframe_summ %>% kable_cust()
+```
+
+##### Modelos {.tabset}
+
+###### Full 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+models$tukey$fit_full_aov %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+summary(models$models$fit_full_aov)
+```
+
+```{r}
+summary(models$models$fit_full)$coeff %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=100}
+par(mfrow=c(2,2))
+plot(models$models$fit_full_aov)
+par(mfrow=c(1,1))
+```
+
+###### 2x2 Interaction
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100,results = "asis"}
+lapply(models$tukey$fit_noInt3_aov,kable_cust)
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+summary(models$models$fit_noInt3_aov)
+```
+
+```{r}
+summary(models$models$fit_noInt3)$coeff %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=100}
+par(mfrow=c(2,2))
+plot(models$models$fit_noInt3_aov)
+par(mfrow=c(1,1))
+```
+
+
+###### Copa*PortaEnxerto Interaction + Manejo
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100,results = "asis"}
+lapply(models$tukey$fit_CopPort_aov,kable_cust)
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+summary(models$models$fit_CopPort_aov)
+```
+
+```{r}
+summary(models$models$fit_CopPort)$coeff %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=100}
+par(mfrow=c(2,2))
+plot(models$models$fit_CopPort_aov)
+par(mfrow=c(1,1))
+```
+
+###### Main Effects
+```{r,results = "asis"}
+lapply(models$tukey$fit_mainEffect_aov,kable_cust)
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+summary(models$models$fit_mainEffect_aov)
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+summary(models$models$fit_mainEffect)$coeff %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=100}
+par(mfrow=c(2,2))
+plot(models$models$fit_mainEffect_aov)
+par(mfrow=c(1,1))
+```
+
+#### IT
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results <- summ_qf_ccsm(dframe_qf_ccsm,variable_name = "IT")
+models <- fit_qf_ccsm(dframe_qf_ccsm,'IT')
+```
+
+##### Graficos {.tabset}
+
+###### Barplot 1
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$barp
+```
+
+###### Barplot 2
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$barp_2
+```
+
+###### Barplot + SD 1
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$barp_error
+```
+
+###### Barplot + SD 2
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$barp_error_2
+```
+
+###### Mean Error 1 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$mean_desv_plot
+```
+
+###### Mean Error 2 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$mean_desv_plot_2
+```
+
+###### Tabela Resumo
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$dframe_summ %>% kable_cust()
+```
+
+##### Modelos {.tabset}
+
+###### Full 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+models$tukey$fit_full_aov %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+summary(models$models$fit_full_aov)
+```
+
+```{r}
+summary(models$models$fit_full)$coeff %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=100}
+par(mfrow=c(2,2))
+plot(models$models$fit_full_aov)
+par(mfrow=c(1,1))
+```
+
+###### 2x2 Interaction
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100,results = "asis"}
+lapply(models$tukey$fit_noInt3_aov,kable_cust)
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+summary(models$models$fit_noInt3_aov)
+```
+
+```{r}
+summary(models$models$fit_noInt3)$coeff %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=100}
+par(mfrow=c(2,2))
+plot(models$models$fit_noInt3_aov)
+par(mfrow=c(1,1))
+```
+
+
+###### Copa*PortaEnxerto Interaction + Manejo
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100,results = "asis"}
+lapply(models$tukey$fit_CopPort_aov,kable_cust)
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+summary(models$models$fit_CopPort_aov)
+```
+
+```{r}
+summary(models$models$fit_CopPort)$coeff %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=100}
+par(mfrow=c(2,2))
+plot(models$models$fit_CopPort_aov)
+par(mfrow=c(1,1))
+```
+
+###### Main Effects
+```{r,results = "asis"}
+lapply(models$tukey$fit_mainEffect_aov,kable_cust)
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+summary(models$models$fit_mainEffect_aov)
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+summary(models$models$fit_mainEffect)$coeff %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=100}
+par(mfrow=c(2,2))
+plot(models$models$fit_mainEffect_aov)
+par(mfrow=c(1,1))
+```
+
+
+#### VitC 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results <- summ_qf_ccsm(dframe_qf_ccsm,variable_name = "VitC")
+models <- fit_qf_ccsm(dframe_qf_ccsm,'VitC')
+```
+
+##### Graficos {.tabset}
+
+###### Barplot 1
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$barp
+```
+
+###### Barplot 2
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$barp_2
+```
+
+###### Barplot + SD 1
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$barp_error
+```
+
+###### Barplot + SD 2
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$barp_error_2
+```
+
+###### Mean Error 1 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$mean_desv_plot
+```
+
+###### Mean Error 2 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$mean_desv_plot_2
+```
+
+###### Tabela Resumo
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+results$dframe_summ %>% kable_cust()
+```
+
+##### Modelos {.tabset}
+
+###### Full 
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+models$tukey$fit_full_aov %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+summary(models$models$fit_full_aov)
+```
+
+```{r}
+summary(models$models$fit_full)$coeff %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=100}
+par(mfrow=c(2,2))
+plot(models$models$fit_full_aov)
+par(mfrow=c(1,1))
+```
+
+###### 2x2 Interaction
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100,results = "asis"}
+lapply(models$tukey$fit_noInt3_aov,kable_cust)
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+summary(models$models$fit_noInt3_aov)
+```
+
+```{r}
+summary(models$models$fit_noInt3)$coeff %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=100}
+par(mfrow=c(2,2))
+plot(models$models$fit_noInt3_aov)
+par(mfrow=c(1,1))
+```
+
+
+###### Copa*PortaEnxerto Interaction + Manejo
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100,results = "asis"}
+lapply(models$tukey$fit_CopPort_aov,kable_cust)
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+summary(models$models$fit_CopPort_aov)
+```
+
+```{r}
+summary(models$models$fit_CopPort)$coeff %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=100}
+par(mfrow=c(2,2))
+plot(models$models$fit_CopPort_aov)
+par(mfrow=c(1,1))
+```
+
+###### Main Effects
+```{r,results = "asis"}
+lapply(models$tukey$fit_mainEffect_aov,kable_cust)
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+summary(models$models$fit_mainEffect_aov)
+```
+
+```{r,fig.align='center',fig.height=4,fig.width=8,dpi=100}
+summary(models$models$fit_mainEffect)$coeff %>% kable_cust()
+```
+
+```{r,fig.align='center',fig.height=8,fig.width=8,dpi=100}
+par(mfrow=c(2,2))
+plot(models$models$fit_mainEffect_aov)
+par(mfrow=c(1,1))
 ```
 
 
